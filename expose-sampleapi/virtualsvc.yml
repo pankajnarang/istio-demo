@@ -1,0 +1,51 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sampleapi
+  namespace: default
+spec:
+  gateways:
+    - sampleapi-gateway
+  hosts:
+    - sampleapi.cncf-nerd.com
+  http:
+    - match:
+        - uri:
+            prefix: /repolist
+      route:
+        - destination:
+            host: sampleapi-svc
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /default
+        - uri:
+            exact: /default
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: sampleapi-svc
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /describe/
+        - uri:
+            exact: /describe
+      rewrite:
+        uri: /repolist/
+      route:
+        - destination:
+            host: sampleapi-svc
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: sampleapi-svc
+            port:
+              number: 8000

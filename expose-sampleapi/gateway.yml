@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: sampleapi-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingress # use istio default controller
+  servers:
+  - hosts:
+    - sampleapi.cncf-nerd.com
+    port:
+      number: 80
+      name: http
+      protocol: HTTP
+    tls:
+      httpsRedirect: false
+  - hosts:
+    - sampleapi.cncf-nerd.com
+    port:
+        name: https
+        number: 443
+        protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: sampleapi-cert

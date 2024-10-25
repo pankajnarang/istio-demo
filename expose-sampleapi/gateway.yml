@@ -2,10 +2,11 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: sampleapi-gateway
-  namespace: default
+  namespace: prod
 spec:
   selector:
-    istio: ingress # use istio default controller
+    # The selector matches the ingress gateway pod labels, use istio default controller.
+    istio: ingress 
   servers:
   - hosts:
     - sampleapi.cncf-nerd.com
